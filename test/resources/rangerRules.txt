@@ -1,0 +1,3 @@
+Ranger:arrests:Poacher
+Poacher:shoots:Bear
+Bear:mauls:Ranger

@@ -13,8 +13,10 @@ import java.util.Set;
 
 public class RuleInterpreter {
 
+  private static final String DRAW_VERB = "draws with";
+  
   private Set<String> tokens;
-  private Map< String, Set<String> > beatMap;
+  private Map<Play, Result> playMap;
   
   /**
    * Initialse the RuleInterpreter with the given ruleset
@@ -24,7 +26,7 @@ public class RuleInterpreter {
   public void parseRules(File ruleFile) throws FileNotFoundException {
     
     tokens = new HashSet<String>();
-    beatMap = new HashMap<String, Set<String>>();
+    playMap = new HashMap<Play, Result>();
 
     // Use BufferedReader and FileReader to read lines from the file
     FileReader fileReader = new FileReader(ruleFile);
@@ -32,25 +34,10 @@ public class RuleInterpreter {
     
     try {
       
-      // Parse the rule
-      String ruleString = ruleReader.readLine();      
-      String[] readTokens = ruleString.split(":");
-      
-      String beater = readTokens[0];
-      String beaten = readTokens[1];
-      
-      // Add the tokens to the known set
-      tokens.add(beater);
-      tokens.add(beaten);
-      
-      // Add the rule to the lookup mechanism
-      Set<String> beatenSet = beatMap.get(beater);
-      if (beatenSet == null) {
-        beatenSet = new HashSet<String>();
-        beatMap.put(beater, beatenSet);
+      String ruleString;      
+      while ((ruleString = ruleReader.readLine()) != null) {       
+        parseRule(ruleString);
       }
-      
-      beatenSet.add(beaten);
       
     } catch (IOException e) {
       
@@ -71,6 +58,33 @@ public class RuleInterpreter {
 
   }
 
+  /*
+   * Private helper method for parsing rules
+   */
+  private void parseRule(String ruleString) {
+    
+    // Parse the rule
+    String[] readTokens = ruleString.split(":");
+ 
+    if (readTokens.length != 3) {
+      throw new RuntimeException("Malformed rule detected");
+    }
+    
+    String beater = readTokens[0];
+    String method = readTokens[1];
+    String beaten = readTokens[2];
+        
+    // Add the tokens to the known set
+    tokens.add(beater);
+    tokens.add(beaten);
+    
+    // Add the rule to the lookup mechanism
+    Result r = new Result(beater, method, beaten);
+    Play p = new Play(beater, beaten);
+
+    playMap.put(p, r);
+  }
+
   /**
    * Read-only accessor for the set of valid tokens. No order can
    * be assumed for the Set.
@@ -87,21 +101,28 @@ public class RuleInterpreter {
    * @return The value of t1, or t2, whichever is triumphant
    * @throws InvalidStateException
    */
-  public String winner(String t1, String t2) {
+  public Result winner(String t1, String t2) {
+
+    String invalidTokenMsg = "Invalid game Token '%s'";
+    if (!tokens.contains(t1)) {
+      throw new IllegalArgumentException( String.format(invalidTokenMsg, t1) );
+    }
+    if (!tokens.contains(t2)) {
+      throw new IllegalArgumentException( String.format(invalidTokenMsg, t2) );      
+    }
+    
+    // Check for a draw
+    if (t1.equals(t2)) {
+      return new Result(t1, DRAW_VERB, t2);
+    }
     
     // Need to check, at most, two map elements here. Does X beat Y, or
     // does Y beat X? If neither, throw an exception
     
-    Set<String> t1Set = beatMap.get(t1);
-    Set<String> t2Set = beatMap.get(t2);
-    
-    if (t1Set != null && t1Set.contains(t2)) {
-      return t1;
-    } else if (t2Set != null && t2Set.contains(t1)) {
-      return t2;
-    } else {
-      throw new IllegalStateException();
-    }
+    Play thisPlay = new Play(t1,t2);    
+    Result res = playMap.get(thisPlay);
+
+    return res;
   }
 
 }
