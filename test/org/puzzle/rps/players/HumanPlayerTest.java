@@ -1,4 +1,4 @@
-package com.ebay.puzzle.rps.players;
+package org.puzzle.rps.players;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,6 +11,9 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.puzzle.rps.players.HumanPlayer;
+import org.puzzle.rps.players.Player;
+
 
 
 public class HumanPlayerTest {

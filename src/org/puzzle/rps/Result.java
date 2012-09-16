@@ -1,4 +1,4 @@
-package com.ebay.puzzle.rps;
+package org.puzzle.rps;
 
 /**
  * Immutable class for game results

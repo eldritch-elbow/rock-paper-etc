@@ -1,4 +1,4 @@
-package com.ebay.puzzle.rps;
+package org.puzzle.rps;
 
 import java.io.BufferedReader;
 import java.io.File;

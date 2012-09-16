@@ -1,4 +1,4 @@
-package com.ebay.puzzle.rps;
+package org.puzzle.rps;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -10,6 +10,9 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.puzzle.rps.Result;
+import org.puzzle.rps.RuleInterpreter;
+
 
 public class RuleInterpreterTest {
 

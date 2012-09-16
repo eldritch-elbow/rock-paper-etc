@@ -1,4 +1,4 @@
-package com.ebay.puzzle.rps;
+package org.puzzle.rps;
 
 import java.util.HashSet;
 import java.util.Set;

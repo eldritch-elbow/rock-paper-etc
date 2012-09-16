@@ -1,4 +1,4 @@
-package com.ebay.puzzle.rps.players;
+package org.puzzle.rps.players;
 
 public interface Player {
 

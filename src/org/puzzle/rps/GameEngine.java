@@ -1,6 +1,6 @@
-package com.ebay.puzzle.rps;
+package org.puzzle.rps;
 
-import com.ebay.puzzle.rps.players.Player;
+import org.puzzle.rps.players.Player;
 
 /**
  * Game engine.

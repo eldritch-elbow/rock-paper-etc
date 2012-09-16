@@ -1,4 +1,4 @@
-package com.ebay.puzzle.rps.players;
+package org.puzzle.rps.players;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

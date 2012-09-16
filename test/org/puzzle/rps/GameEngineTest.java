@@ -1,4 +1,4 @@
-package com.ebay.puzzle.rps;
+package org.puzzle.rps;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.atLeastOnce;
@@ -12,9 +12,12 @@ import java.io.FileNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.puzzle.rps.GameEngine;
+import org.puzzle.rps.RuleInterpreter;
+import org.puzzle.rps.GameEngine.GameState;
+import org.puzzle.rps.players.Player;
 
-import com.ebay.puzzle.rps.GameEngine.GameState;
-import com.ebay.puzzle.rps.players.Player;
+
 
 public class GameEngineTest {
 
