@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.ebay.puzzle.rps.GameEngine.GameState;
+import com.ebay.puzzle.rps.players.Player;
 
 public class GameEngineTest {
 
