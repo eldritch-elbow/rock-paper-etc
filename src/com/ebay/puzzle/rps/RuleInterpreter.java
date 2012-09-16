@@ -13,8 +13,6 @@ import java.util.Set;
 
 public class RuleInterpreter {
 
-  private static final String DRAW_VERB = "draws with";
-  
   private Set<String> tokens;
   private Map<Play, Result> playMap;
   
@@ -113,7 +111,7 @@ public class RuleInterpreter {
     
     // Check for a draw
     if (t1.equals(t2)) {
-      return new Result(t1, DRAW_VERB, t2);
+      return new Result(t1, Result.DRAW_VERB, t2);
     }
     
     // Need to check, at most, two map elements here. Does X beat Y, or

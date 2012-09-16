@@ -70,7 +70,7 @@ public class RuleInterpreterTest {
     checkOutcome("Rock","Paper", new Result("Paper", "covers", "Rock"));
 
     // Check all draw states
-    checkOutcome("Rock","Rock", new Result("Rock", "draws with", "Rock"));;
+    checkOutcome("Rock", "Rock", new Result("Rock", "draws with", "Rock"));;
     checkOutcome("Scissors","Scissors", new Result("Scissors", "draws with", "Scissors"));
     checkOutcome("Paper","Paper", new Result("Paper", "draws with", "Paper"));    
   }
@@ -163,13 +163,9 @@ public class RuleInterpreterTest {
 
   }
   
-  
-  
-  private void checkOutcome(String t1, String t2, Result expResult) {
-    
+  private void checkOutcome(String t1, String t2, Result expResult) {    
     assertEquals(expResult, ri.winner(t1,t2));
-    assertEquals(expResult, ri.winner(t2,t1));  
-    
+    assertEquals(expResult, ri.winner(t2,t1));      
   }
 
 

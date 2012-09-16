@@ -1,17 +1,21 @@
 package com.ebay.puzzle.rps;
 
+/**
+ * Immutable class for game results
+ */
 public class Result {
 
-  private String winningToken;
-  private String winVerb;
-  private String losingToken;
+  public static final String DRAW_VERB = "draws with";
+  
+  public final String winningToken;
+  public final String winVerb;
+  public final String losingToken;
 
   public Result(String winner, String verb, String loser) {
     this.winningToken = winner;
     this.winVerb = verb;
     this.losingToken = loser;
   }
-
   
   
   // AUTO-GENERATED hashCode and equals implementations ... thank you Eclipse.
