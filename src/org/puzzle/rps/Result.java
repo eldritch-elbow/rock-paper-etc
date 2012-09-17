@@ -1,22 +1,36 @@
 package org.puzzle.rps;
 
 /**
- * Immutable class for game results
+ * Immutable class for game results. Class state is publicly accessible 
+ * here because instances are immutable.
  */
 public class Result {
 
+  /** Verb for use in draw situations  */
   public static final String DRAW_VERB = "draws with";
   
+  /** The winning token */
   public final String winningToken;
+  /** The way in which the winner won */
   public final String winVerb;
+  /** The losing token */
   public final String losingToken;
 
+  /** 
+   * Public constructor
+   */
   public Result(String winner, String verb, String loser) {
     this.winningToken = winner;
     this.winVerb = verb;
     this.losingToken = loser;
   }
   
+  @Override
+  public String toString() {
+    // Provide a human readable version of the result
+    return String.format("%s %s %s", winningToken, winVerb, losingToken);
+  }
+
   
   // AUTO-GENERATED hashCode and equals implementations ... thank you Eclipse.
   // Must always implement one if you implement the other
@@ -58,11 +72,6 @@ public class Result {
     } else if (!winningToken.equals(other.winningToken))
       return false;
     return true;
-  }
-
-  @Override
-  public String toString() {
-    return String.format("%s %s %s", winningToken, winVerb, losingToken);
   }
 
 }

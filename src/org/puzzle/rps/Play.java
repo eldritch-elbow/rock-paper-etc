@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Immutable object used for simplicity in looking up results
+ * Immutable object used for simplicity in looking up results.
  */
 public class Play {
 

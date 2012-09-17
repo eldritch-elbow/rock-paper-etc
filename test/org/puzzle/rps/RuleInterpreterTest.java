@@ -65,7 +65,7 @@ public class RuleInterpreterTest {
   @Test
   public void canCheckManyRules() throws FileNotFoundException {
    
-    ri.parseRules(new File("test/resources/rpsRules.txt"));
+    ri.parseRules(new File("src/resources/rpsRules.txt"));
 
     // Check all winning/losing states...
     checkOutcome("Rock","Scissors", new Result("Rock", "crushes", "Scissors"));
@@ -84,7 +84,7 @@ public class RuleInterpreterTest {
   @Test
   public void threeArbitraryRules() throws FileNotFoundException {
    
-    ri.parseRules(new File("test/resources/rangerRules.txt"));
+    ri.parseRules(new File("src/resources/rangerRules.txt"));
 
     // Check all winning/losing states...
     checkOutcome("Ranger","Poacher", new Result("Ranger", "arrests", "Poacher"));
@@ -103,7 +103,7 @@ public class RuleInterpreterTest {
   @Test
   public void manyManyManyArbitraryRules() throws FileNotFoundException {
    
-    ri.parseRules(new File("test/resources/lizardSpockRules.txt"));
+    ri.parseRules(new File("src/resources/lizardSpockRules.txt"));
 
     // Check all win states...
     checkOutcome("Scissors","Paper",    new Result("Scissors", "cuts", "Paper"));
@@ -148,7 +148,7 @@ public class RuleInterpreterTest {
   @Test
   public void invalidRuleCheckRejected() throws FileNotFoundException {
 
-    ri.parseRules(new File("test/resources/rpsRules.txt"));
+    ri.parseRules(new File("src/resources/rpsRules.txt"));
 
     try {
       ri.winner("Bicycle", "Doctor Who");

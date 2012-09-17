@@ -39,6 +39,9 @@ public class HumanPlayerTest {
     outStream = new ByteArrayOutputStream();
   }
   
+  /*
+   * The user's move should be retrieved from the input stream
+   */
   @Test
   public void moveBasedOnInputStream() {    
     
@@ -48,6 +51,9 @@ public class HumanPlayerTest {
     assertEquals("Banana", hp.getMove());    
   }
 
+  /*
+   * The human player can make multiple moves 
+   */
   @Test
   public void multipleMoves() {    
     
@@ -60,6 +66,9 @@ public class HumanPlayerTest {
     assertEquals("Banana", hp.getMove());    
   }  
   
+  /*
+   * Invalid input strings are ignored  
+   */
   @Test
   public void invalidMoveIgnored() {    
     
@@ -72,6 +81,9 @@ public class HumanPlayerTest {
     assertEquals("Rock", hp.getMove());    
   }
   
+  /*
+   * Choices that are out of rane, i.e. for non-existent tokens, are ignored
+   */
   @Test
   public void outOfBoundsIgnored() {    
     
@@ -83,6 +95,9 @@ public class HumanPlayerTest {
     assertEquals("Tardis", hp.getMove());    
   }
   
+  /*
+   * The user is prompted, on the stream, for their move
+   */
   @Test
   public void userMoveRequested() {
 
@@ -91,9 +106,12 @@ public class HumanPlayerTest {
     hp = new HumanConsolePlayer(validTokens, inStream, outStream);   
     hp.getMove();    
 
-    assertEquals("Select your token [1-3]: " + LINE_SEP, outStream.toString());    
+    assertEquals("Select your token Wiggles [1-3]: ", outStream.toString());    
   }
 
+  /* 
+   * Different token counts mean different prompts
+   */
   @Test
   public void promptDependsOnTokens() {
 
@@ -105,9 +123,12 @@ public class HumanPlayerTest {
     hp = new HumanConsolePlayer(validTokens, inStream, outStream);   
     hp.getMove();    
 
-    assertEquals("Select your token [1-5]: " + LINE_SEP, outStream.toString());    
+    assertEquals("Select your token Wiggles [1-5]: ", outStream.toString());    
   }
   
+  /*
+   * Test invalid inputs cause suitable prompting 
+   */
   @Test
   public void invalidChoicePromptsMessage() {    
     
@@ -117,16 +138,19 @@ public class HumanPlayerTest {
     assertEquals("Rock", hp.getMove());
     
     String expectedOutput = 
-        "Select your token [1-3]: " + LINE_SEP +
+        "Select your token Wiggles [1-3]: "+
         "Invalid choice '4', please try again!" + LINE_SEP +
-        "Select your token [1-3]: " + LINE_SEP +
+        "Select your token Wiggles [1-3]: "+
         "Invalid choice 'J', please try again!" + LINE_SEP +
-        "Select your token [1-3]: " + LINE_SEP;
+        "Select your token Wiggles [1-3]: ";
         
     assertEquals(expectedOutput, outStream.toString());    
 
   }
 
+  /*
+   * Test implementation of toString() 
+   */
   @Test
   public void fromNowOnYoullBeKnownAs() {
     

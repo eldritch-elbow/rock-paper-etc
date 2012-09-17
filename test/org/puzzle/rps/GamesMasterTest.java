@@ -34,7 +34,7 @@ public class GamesMasterTest {
     /* Create the rule interpreter. For now, the expectation is that a games
      * master instance is always working with one set of rules hence the constructor. */
     testRules = new RuleInterpreter();
-    testRules.parseRules( new File("test/resources/rpsRules.txt") );    
+    testRules.parseRules( new File("src/resources/rpsRules.txt") );    
     
     /* Mock out player factory, players, and factory */ 
     playerFactory = Mockito.mock(PlayerFactory.class);
@@ -48,6 +48,9 @@ public class GamesMasterTest {
     gm = new TestGamesMaster(testRules, playerFactory);
   }
   
+  /*
+   * Test that the GamesMaster calls it's abstract method for banner display 
+   */
   @Test
   public void coreInteractionLoop_bannerShown() {
     
@@ -56,8 +59,11 @@ public class GamesMasterTest {
     assertTrue(gm.bannerShown);
   }
 
+  /*
+   * Test that the GamesMaster prepares a game correctly 
+   */
   @Test
-  public void coreInteractionLoop_() {
+  public void coreInteractionLoop_prepGame() {
     
     // Invoke GM, checking that a game is prepared
     gm.runGames(false);    
@@ -66,17 +72,23 @@ public class GamesMasterTest {
     assertEquals(7, gm.roundCount);
   }
 
+  /*
+   * Test that the GamesMaster starts it's prepared game 
+   */
   @Test
-  public void gameStartedOutcomeProvided() {
+  public void gameStarted() {
     
     GameState outcome = Mockito.mock(GameState.class);    
     when(gameEngine.outcome()).thenReturn(outcome);   
     
     gm.runGames(false);
     
-    assertEquals(outcome, gm.gameOutcome);
+    verify(gameEngine).play();
   }
   
+  /*
+   * Test that the GamesMaster passes on all game events to sub classes 
+   */
   @Test
   public void updatesProvided() {
    
@@ -90,7 +102,7 @@ public class GamesMasterTest {
     Result resMock = Mockito.mock(Result.class);
     gm.notifyPlay(p2, "SomeToken");
     gm.notifyRoundOutcome(resMock);
-    gm.notifyGameOutcome(p2, 17, p1, 32);
+    gm.notifyGameOutcome(p1, 17, p2, 32);
     
     assertEquals(resMock, gm.roundOutcome);
     assertEquals(p2, gm.playEventPlayer);
@@ -119,7 +131,6 @@ public class GamesMasterTest {
     Player playEventPlayer = null;
     String playEventToken = null;
     Result roundOutcome = null;    
-    GameState gameOutcome = null;
     Player outcomeP1, outcomeP2 = null;
     int outcomeP1score, outcomeP2score = -1;
     

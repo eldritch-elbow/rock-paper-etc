@@ -7,10 +7,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Interpreter for Rock-Paper-Scissors type games. Parses rule files 
+ * then provides an interface for checking game plays.
+ * 
+ * Rule format: 
+ * <PRE>Winner:verb:Loser</PRE>
+ * 
+ * See test/resources folder for more examples. 
+ */
 public class RuleInterpreter {
 
   private Set<String> tokens;
@@ -23,9 +32,12 @@ public class RuleInterpreter {
    */
   public void parseRules(File ruleFile) throws FileNotFoundException {
     
-    tokens = new HashSet<String>();
+    tokens = new LinkedHashSet<String>();
+    Set<String> beaterTokens = new LinkedHashSet<String>();
+    Set<String> beatenTokens = new LinkedHashSet<String>();
+    
     playMap = new HashMap<Play, Result>();
-
+    
     // Use BufferedReader and FileReader to read lines from the file
     FileReader fileReader = new FileReader(ruleFile);
     BufferedReader ruleReader = new BufferedReader(fileReader);
@@ -34,8 +46,12 @@ public class RuleInterpreter {
       
       String ruleString;      
       while ((ruleString = ruleReader.readLine()) != null) {       
-        parseRule(ruleString);
+        parseRule(ruleString, beaterTokens, beatenTokens);
       }
+      
+      // Assign tokens - use two sets here to give preference to 'beater' ordering
+      tokens.addAll(beaterTokens);
+      tokens.addAll(beatenTokens);
       
     } catch (IOException e) {
       
@@ -59,7 +75,7 @@ public class RuleInterpreter {
   /*
    * Private helper method for parsing rules
    */
-  private void parseRule(String ruleString) {
+  private void parseRule(String ruleString, Set<String> beaterSet, Set<String> beatenSet) {
     
     // Parse the rule
     String[] readTokens = ruleString.split(":");
@@ -73,8 +89,8 @@ public class RuleInterpreter {
     String beaten = readTokens[2];
         
     // Add the tokens to the known set
-    tokens.add(beater);
-    tokens.add(beaten);
+    beaterSet.add(beater);
+    beatenSet.add(beaten);
     
     // Add the rule to the lookup mechanism
     Result r = new Result(beater, method, beaten);

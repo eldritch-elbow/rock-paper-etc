@@ -40,13 +40,16 @@ public class GameEngineTest {
     // interface of the RI is simple, and it's behaviour quite transparent.
     
     RuleInterpreter ri = new RuleInterpreter();
-    ri.parseRules(new File("test/resources/rpsRules.txt"));
+    ri.parseRules(new File("src/resources/rpsRules.txt"));
     
     // Instance of the game engine, with given rules; override delay for speedy tests
     gameEngine = new GameEngine(p1Mock,p2Mock,ri,3);
     gameEngine.setGameDelay(10);
   }
   
+  /*
+   * Players should be asked for moves  
+   */
   @Test
   public void gameAsksPlayersForMoves() {
 
@@ -56,6 +59,9 @@ public class GameEngineTest {
     verify(p2Mock, atLeastOnce()).getMove();    
   }
 
+  /*
+   * Players should be asked for a move for each round  
+   */
   @Test
   public void gameAsksPlayersForRightNumberOfMoves() {
 
@@ -65,6 +71,9 @@ public class GameEngineTest {
     verify(p2Mock, times(3)).getMove();    
   }
 
+  /*
+   * The rules should be applied, here player two wins  
+   */
   @Test
   public void rulesApplied_PlayerTwoWins() {
 
@@ -81,6 +90,9 @@ public class GameEngineTest {
     assertEquals(2, outcome.getP2Score());
   }
 
+  /*
+   * ... here player one wins ...  
+   */
   @Test
   public void rulesApplied_PlayerOneWins() {
 
@@ -97,6 +109,9 @@ public class GameEngineTest {
     assertEquals(0, outcome.getP2Score());
   }
   
+  /*
+   *  ... and here it's a draw ...  
+   */
   @Test
   public void rulesApplied_ItsADraw() {
 
@@ -113,11 +128,14 @@ public class GameEngineTest {
     assertEquals(1, outcome.getP2Score());
   }
 
+  /*
+   * A more complex text. Seven rounds of RPS + Lizard, Spock
+   */
   @Test
   public void rulesApplied_lizardGame_P1WinsOverSevenRounds() throws FileNotFoundException {
 
     RuleInterpreter ri = new RuleInterpreter();
-    ri.parseRules(new File("test/resources/lizardSpockRules.txt"));
+    ri.parseRules(new File("src/resources/lizardSpockRules.txt"));
     
     // Instance of the game engine, with given rules
     gameEngine = new GameEngine(p1Mock,p2Mock,ri,7);
@@ -136,12 +154,14 @@ public class GameEngineTest {
     assertEquals(3, outcome.getP2Score());
   }
   
-
+  /*
+   * All game events are notified  
+   */
   @Test
-  public void roundsNotified() throws FileNotFoundException {
+  public void eventsNotified() throws FileNotFoundException {
 
     RuleInterpreter ri = new RuleInterpreter();
-    ri.parseRules(new File("test/resources/lizardSpockRules.txt"));
+    ri.parseRules(new File("src/resources/lizardSpockRules.txt"));
 
     // Mock out a game observer, register it with the engine
     GameObserver gObserver = Mockito.mock(GameObserver.class);

@@ -14,6 +14,21 @@ import org.puzzle.rps.players.PlayerFactory;
 import org.puzzle.rps.players.PlayerFactory.PlayerType;
 import org.puzzle.rps.support.FileSupport;
 
+/**
+ * A console based games master. Extends GamesMaster, and implements all methods
+ * using the system console, to provide a means for the user to select players
+ * and potentially participate in games.
+ * 
+ * <p><i>Note:</i> this is the only class omitted from unit tests; UI logic is notoriously
+ * tricky to unit test. However the the abstract logic provided in the GamesMaster does have
+ * unit test coverage.
+ * 
+ * <p>Also this class does not currently provide a means for changing rulesets between
+ * games. The rule set can be provided via a construction parameter.
+ * 
+ * ASCII art dinosaurs courtesy:
+ * http://www.ascii-art.de/ascii/def/dinosaur.txt
+ */
 public class ConsoleGamesMaster extends GamesMaster {
 
   private static final String ASCII_BANNER;
@@ -43,11 +58,18 @@ public class ConsoleGamesMaster extends GamesMaster {
     }
   }
   
+  /**
+   * Public constructor
+   * @param ruleInterp The rules to apply to games
+   * @param pFactory Class for creating players
+   */
   public ConsoleGamesMaster(RuleInterpreter ruleInterp, PlayerFactory pFactory) {
     super(ruleInterp, pFactory);
         
+    // Prepare console resource for reading input
     reader = new BufferedReader(new InputStreamReader(System.in));
     
+    // Create a token list for display, and for player creation
     tokenList = new ArrayList<String>();
     tokenList.addAll( ruleInterpreter.getTokens() );
   }
@@ -55,17 +77,20 @@ public class ConsoleGamesMaster extends GamesMaster {
   @Override
   protected void showBanner() {
 
+    // Show a nice ASCII banner, then make a reference to a classic movie
     System.out.println(ASCII_BANNER);
     
     System.out.println();    
     System.out.println("SHALL WE PLAY A GAME?");    
     System.out.println();    
     
+    // Display available game tokens and their associated numbers
     System.out.println("Game tokens:");
     for (int j=0; j<tokenList.size(); j++ ) {
       System.out.println( String.format("  %d - %s", j+1, tokenList.get(j)) );
     }
     
+    // Display available player types
     System.out.println("Available player types: ");
     
     PlayerType[] types = PlayerType.values();    
@@ -87,6 +112,11 @@ public class ConsoleGamesMaster extends GamesMaster {
     return readyPlayer("Select player 2 type: ", factory);
   }
 
+  /*
+   * Private helper method. Display the given console prompt, then
+   * obtains a choice of player and creates the required type using
+   * the player factory. 
+   */
   private Player readyPlayer(String consolePrompt, PlayerFactory factory) {
     
     System.out.print(consolePrompt);
@@ -101,8 +131,8 @@ public class ConsoleGamesMaster extends GamesMaster {
   @Override
   protected int getRounds() {
 
-    System.out.println("Enter a number of rounds to play: ");
-
+    // Display console prompt, retrieve user choice
+    System.out.print("Enter a number of rounds to play: ");
     int rounds = readIntFromConsole( 1, Integer.MAX_VALUE );
 
     return rounds;
@@ -110,16 +140,23 @@ public class ConsoleGamesMaster extends GamesMaster {
 
   @Override
   protected GameEngine prepareGame(Player p1, Player p2, int rounds) {
+    
+    System.out.println();
+    System.out.println("OK. LET'S PLAY A GAME");
+
+    // Straight pass through to GameEngine constructor
     return new GameEngine(p1,p2,ruleInterpreter,rounds);
   }
 
   @Override
   public void notifyPlay(Player player, String token) {
+    // A player made a move! Display it.
     System.out.println( String.format("Player [%s] plays '%s'", player, token) );
   }
   
   @Override
   public void notifyRoundOutcome(Result res) {
+    // A round is complete! Display the result
     System.out.println( res );
     System.out.println();    
   }
@@ -127,19 +164,25 @@ public class ConsoleGamesMaster extends GamesMaster {
   @Override
   public void notifyGameOutcome(Player p1, int p1score, Player p2, int p2score) {
     
+    // Game over. Display the score, and output the winner if there is one.
+    
     System.out.println( "Final score:" );
     System.out.println( String.format("%s: %d", p1, p1score )); 
     System.out.println( String.format("%s: %d", p2, p2score )); 
 
-    String winner;
     if (p1score > p2score) {
-      winner = p1.toString();
+      outputWinner(p1.toString());
     } else if (p2score > p1score) {
-      winner = p2.toString();
+      outputWinner(p2.toString());
     } else {
-      winner = "It's a draw!";
+      System.out.println("It's a draw! No dinosaurs this time.");
+      System.out.println();
     }
+  }
+
+  private void outputWinner(String winner) {
     
+    // Display the winner, then a random choice of dinosaur
     System.out.println( String.format( "And the winner is: %s", winner) );
     System.out.println( "" );  
     System.out.println( String.format( "Congratulations %s, here is your celebratory dinosaur:",winner ));
@@ -149,6 +192,13 @@ public class ConsoleGamesMaster extends GamesMaster {
   }
 
   
+  /*
+   * Private helper method. Reads an int value from the console, ensuring that 
+   * it is well formed and falls within the required range.
+   * @param min Min input value (inc)
+   * @param max Max input value (inc)
+   * @return int value, the user's choice
+   */
   private int readIntFromConsole(int min, int max) {
     
     int choiceVal = -1;
@@ -187,7 +237,16 @@ public class ConsoleGamesMaster extends GamesMaster {
 
   
   
+  /**
+   * Main method for executing the console based games master.
+   * @param args Input arguments
+   * @throws FileNotFoundException If the string given by parameter 1 does not correspond to a file 
+   */
   public static void main(String args[]) throws FileNotFoundException {
+    
+    if (args.length != 1) {
+      System.out.println("Usage: java [jvm args] org.puzzle.rps.ConsoleGamesMaster [rule file]");
+    }
     
     // Use rules defined on command line, plus default player factory
     RuleInterpreter ruleset = new RuleInterpreter();

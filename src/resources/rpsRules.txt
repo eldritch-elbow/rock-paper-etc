@@ -1,0 +1,3 @@
+Rock:crushes:Scissors
+Paper:covers:Rock
+Scissors:cuts:Paper

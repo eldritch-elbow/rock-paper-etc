@@ -33,11 +33,17 @@ public class RandomComputerPlayerTest {
     randomCP = new RandomComputerPlayer(validTokens);
   }
   
+  /*
+   * The robot player can be asked for a move
+   */
   @Test
   public void playerProvidesMove() {    
     assertTrue( validTokens.contains( randomCP.getMove() ) );    
   }
 
+  /*
+   * The moves *appear* to be random; this is sanity check more than anything
+   */
   @Test
   public void movesAppearRandom() {
     
@@ -54,6 +60,9 @@ public class RandomComputerPlayerTest {
     assertEquals(expected, found);    
   }
 
+  /*
+   * Two robot players, created at the same time, show different moves. 
+   */
   @Test
   public void twoPlayersHaveDifferentMoves() {
     
@@ -76,6 +85,9 @@ public class RandomComputerPlayerTest {
     assertTrue(differCount > 0);
   }
  
+  /*
+   * Test that the robot has a name
+   */
   @Test
   public void robbyTheRobot() {
 

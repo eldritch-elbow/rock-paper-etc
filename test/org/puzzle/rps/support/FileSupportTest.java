@@ -9,11 +9,13 @@ import org.puzzle.rps.support.FileSupport;
 
 public class FileSupportTest {
 
-  
+  /*
+   * Test that a string can be read from a file
+   */
   @Test
   public void getStringFromResource() throws FileNotFoundException {
     
-    String res = FileSupport.getStringFromFile("test/resources/rpsRules.txt");
+    String res = FileSupport.getStringFromFile("src/resources/rpsRules.txt");
     
     assertTrue(res.startsWith("Rock:crushes:"));
   }

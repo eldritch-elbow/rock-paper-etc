@@ -29,6 +29,9 @@ public class PlayerFactoryTest {
     pf = new PlayerFactory();
   }
   
+  /*
+   * The PlayerType enum has the right values
+   */
   @Test
   public void checkPlayerEnum() {
     
