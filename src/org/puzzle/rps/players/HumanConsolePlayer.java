@@ -15,13 +15,18 @@ import java.util.List;
  * to prompt a user for a game choice, and parse console input for game
  * play choices.
  */
-public class HumanPlayer implements Player {
+public class HumanConsolePlayer implements Player {
 
+  /*
+   * Ref: "Futurama: The Birdbot of Ice-Catraz"
+   */
+  private static String HUMAN_NAME = "Wiggles";
+  
   private List<String> validTokens;
   private BufferedWriter writer;
   private BufferedReader reader;  
   
-  public HumanPlayer(List<String> tokens, InputStream is, OutputStream os) {
+  public HumanConsolePlayer(List<String> tokens, InputStream is, OutputStream os) {
     
     validTokens = tokens;
     
@@ -73,4 +78,10 @@ public class HumanPlayer implements Player {
     return validTokens.get(choiceIdx);
   }
 
+  @Override
+  public String toString() {
+    return HUMAN_NAME;
+  }
+  
+  
 }

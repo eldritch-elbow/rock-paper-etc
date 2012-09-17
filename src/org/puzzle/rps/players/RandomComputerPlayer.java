@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Random;
 
 public class RandomComputerPlayer implements Player {
+  
+  private static String NAME_PREFIX = "Robby";
+  
+  private String helloMyNameIs;   
 
   private Random random;
   private List<String> validTokens;
@@ -25,6 +29,7 @@ public class RandomComputerPlayer implements Player {
       throw new RuntimeException("Random computer player was unexpectedly woken from sleep...");
     }
     
+    helloMyNameIs = String.format("%s %d", NAME_PREFIX, Math.abs( random.nextInt(10000) ));
   }
 
   @Override
@@ -34,4 +39,9 @@ public class RandomComputerPlayer implements Player {
     return validTokens.get(choice);
   }
 
+  @Override
+  public String toString() {
+    return helloMyNameIs;
+  }
+  
 }

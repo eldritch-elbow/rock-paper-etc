@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.puzzle.rps.players.HumanPlayer;
+import org.puzzle.rps.players.HumanConsolePlayer;
 import org.puzzle.rps.players.Player;
 
 
@@ -43,7 +43,7 @@ public class HumanPlayerTest {
   public void moveBasedOnInputStream() {    
     
     InputStream inStream = new ByteArrayInputStream("2\n".getBytes());
-    hp = new HumanPlayer(validTokens, inStream, System.out);   
+    hp = new HumanConsolePlayer(validTokens, inStream, System.out);   
     
     assertEquals("Banana", hp.getMove());    
   }
@@ -52,7 +52,7 @@ public class HumanPlayerTest {
   public void multipleMoves() {    
     
     InputStream inStream = new ByteArrayInputStream("2\n1\n3\n2\n".getBytes());
-    hp = new HumanPlayer(validTokens, inStream, outStream);   
+    hp = new HumanConsolePlayer(validTokens, inStream, outStream);   
     
     assertEquals("Banana", hp.getMove());    
     assertEquals("Rock", hp.getMove());    
@@ -64,7 +64,7 @@ public class HumanPlayerTest {
   public void invalidMoveIgnored() {    
     
     InputStream inStream = new ByteArrayInputStream("2\n3\nQ\n1\nHello world\n1\nN\n".getBytes());
-    hp = new HumanPlayer(validTokens, inStream, outStream);   
+    hp = new HumanConsolePlayer(validTokens, inStream, outStream);   
     
     assertEquals("Banana", hp.getMove());    
     assertEquals("Tardis", hp.getMove());    
@@ -76,7 +76,7 @@ public class HumanPlayerTest {
   public void outOfBoundsIgnored() {    
     
     InputStream inStream = new ByteArrayInputStream("1\n9\n1\n0\n3\n".getBytes());
-    hp = new HumanPlayer(validTokens, inStream, outStream);   
+    hp = new HumanConsolePlayer(validTokens, inStream, outStream);   
     
     assertEquals("Rock", hp.getMove());    
     assertEquals("Rock", hp.getMove());    
@@ -88,7 +88,7 @@ public class HumanPlayerTest {
 
     InputStream inStream = new ByteArrayInputStream("2\n".getBytes());
     
-    hp = new HumanPlayer(validTokens, inStream, outStream);   
+    hp = new HumanConsolePlayer(validTokens, inStream, outStream);   
     hp.getMove();    
 
     assertEquals("Select your token [1-3]: " + LINE_SEP, outStream.toString());    
@@ -102,7 +102,7 @@ public class HumanPlayerTest {
     validTokens.add("Toaster");
     validTokens.add("Lampshade");
 
-    hp = new HumanPlayer(validTokens, inStream, outStream);   
+    hp = new HumanConsolePlayer(validTokens, inStream, outStream);   
     hp.getMove();    
 
     assertEquals("Select your token [1-5]: " + LINE_SEP, outStream.toString());    
@@ -112,7 +112,7 @@ public class HumanPlayerTest {
   public void invalidChoicePromptsMessage() {    
     
     InputStream inStream = new ByteArrayInputStream("4\nJ\n1".getBytes());
-    hp = new HumanPlayer(validTokens, inStream, outStream);   
+    hp = new HumanConsolePlayer(validTokens, inStream, outStream);   
     
     assertEquals("Rock", hp.getMove());
     
@@ -127,5 +127,14 @@ public class HumanPlayerTest {
 
   }
 
+  @Test
+  public void fromNowOnYoullBeKnownAs() {
+    
+    InputStream inStream = new ByteArrayInputStream("4\nJ\n1".getBytes());
+    hp = new HumanConsolePlayer(validTokens, inStream, outStream);   
+
+    assertEquals("Wiggles", hp.toString());
+    
+  }
   
 }

@@ -1,5 +1,8 @@
 package org.puzzle.rps;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.puzzle.rps.players.Player;
 
 /**
@@ -12,9 +15,11 @@ public class GameEngine {
   
   private RuleInterpreter ruleInterpreter;  
   private final int numRounds;
+  private int roundDelay = 2000;
   
   private GameState gameState;
   
+  private List<GameObserver> observers = new ArrayList<GameObserver>();
   
   /**
    * Constructor for two players.
@@ -41,23 +46,36 @@ public class GameEngine {
       String play1 = player1.getMove();
       String play2 = player2.getMove(); 
       
+      notifyPlay(player1, play1);
+      notifyPlay(player2, play2);
+      
       Result res = ruleInterpreter.winner(play1, play2);
 
       round++;
 
-      // Check for a draw...
-      if (res.winVerb.equals(Result.DRAW_VERB)) {
-        continue;
+      // Update scores..
+      if (!res.winVerb.equals(Result.DRAW_VERB)) {
+        // Check for winner/loser
+        if (res.winningToken.equals(play1)) {
+          gameState.p1Score++;
+        } else {
+          gameState.p2Score++;        
+        }      
       }
       
-      // Check for winner/loser
-      if (res.winningToken.equals(play1)) {
-        gameState.p1Score++;
-      } else {
-        gameState.p2Score++;        
-      }      
+      // Notify result of this round, then sleep for a bit
+      notifyRoundOutcome(res);
       
+      try {
+        Thread.sleep(roundDelay);
+      } catch (InterruptedException e) {
+        throw new RuntimeException("Received unexpected interruption while sleeping in game...");
+      }
     }
+    
+    // Notify the outcome of the game
+    notifyGameOutcome(player1, gameState.p1Score, player2, gameState.p2Score);
+    
   }
 
   public GameState outcome() {
@@ -80,8 +98,34 @@ public class GameEngine {
     public int getP2Score() {
       return p2Score;
     }
-    
+
   }
+
+
+  public Object registerObserver(GameObserver observer) {
+    return observers.add(observer);
+  }
+
+  private void notifyPlay(Player p, String token) {
+    for (GameObserver obs : observers) {
+      obs.notifyPlay(p,token);
+    }
+  }
+
+  private void notifyRoundOutcome(Result r) {
+    for (GameObserver obs : observers) {
+      obs.notifyRoundOutcome(r);
+    }
+  }
+
+  private void notifyGameOutcome(Player p1, int p1score, Player p2, int p2score) {
+    for (GameObserver obs : observers) {
+      obs.notifyGameOutcome(p1, p1score, p2, p2score);
+    }
+  }
+
   
-  
+  public void setGameDelay(int delay) {
+    roundDelay = delay;
+  }
 }

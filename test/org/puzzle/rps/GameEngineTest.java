@@ -11,9 +11,8 @@ import java.io.FileNotFoundException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 import org.mockito.Mockito;
-import org.puzzle.rps.GameEngine;
-import org.puzzle.rps.RuleInterpreter;
 import org.puzzle.rps.GameEngine.GameState;
 import org.puzzle.rps.players.Player;
 
@@ -43,8 +42,9 @@ public class GameEngineTest {
     RuleInterpreter ri = new RuleInterpreter();
     ri.parseRules(new File("test/resources/rpsRules.txt"));
     
-    // Instance of the game engine, with given rules
+    // Instance of the game engine, with given rules; override delay for speedy tests
     gameEngine = new GameEngine(p1Mock,p2Mock,ri,3);
+    gameEngine.setGameDelay(10);
   }
   
   @Test
@@ -121,6 +121,7 @@ public class GameEngineTest {
     
     // Instance of the game engine, with given rules
     gameEngine = new GameEngine(p1Mock,p2Mock,ri,7);
+    gameEngine.setGameDelay(10);
 
     // Define moves such that player two wins...
     when(p1Mock.getMove()).thenReturn("Spock","Lizard","Paper","Paper","Scissors","Lizard","Spock");
@@ -135,5 +136,48 @@ public class GameEngineTest {
     assertEquals(3, outcome.getP2Score());
   }
   
+
+  @Test
+  public void roundsNotified() throws FileNotFoundException {
+
+    RuleInterpreter ri = new RuleInterpreter();
+    ri.parseRules(new File("test/resources/lizardSpockRules.txt"));
+
+    // Mock out a game observer, register it with the engine
+    GameObserver gObserver = Mockito.mock(GameObserver.class);
+    gameEngine = new GameEngine(p1Mock,p2Mock,ri,3);
+    gameEngine.setGameDelay(10);
+    gameEngine.registerObserver( gObserver );
+
+    // Define moves such that player two wins...
+    when(p1Mock.getMove()).thenReturn("Spock","Lizard","Paper");
+    when(p2Mock.getMove()).thenReturn("Rock","Paper","Paper");
+
+    // Play the game...
+    gameEngine.play();
+
+    // Check that the right events were notified
+    InOrder inOrder = Mockito.inOrder(gObserver);
+    inOrder.verify(gObserver).notifyPlay(p1Mock, "Spock");
+    inOrder.verify(gObserver).notifyPlay(p2Mock, "Rock");
+    inOrder.verify(gObserver).notifyRoundOutcome(new Result("Spock","vaporizes","Rock"));
+    inOrder.verify(gObserver).notifyPlay(p1Mock, "Lizard");
+    inOrder.verify(gObserver).notifyPlay(p2Mock, "Paper");
+    inOrder.verify(gObserver).notifyRoundOutcome(new Result("Lizard","eats","Paper"));
+    inOrder.verify(gObserver).notifyPlay(p1Mock, "Paper");
+    inOrder.verify(gObserver).notifyPlay(p2Mock, "Paper");
+    inOrder.verify(gObserver).notifyRoundOutcome(new Result("Paper","draws with","Paper"));
+    inOrder.verify(gObserver).notifyGameOutcome(p1Mock, 2, p2Mock, 0);
+  }
+  
+  /*
+   * This isn't technically a Game Engine test; it's a simple enough test
+   * of the Result class, and isn't particularly out of place here
+   */
+  @Test
+  public void resultStringGenerated() {
+    Result testRes = new Result("Paper","disproves","Spock");
+    assertEquals("Paper disproves Spock", testRes.toString());
+  }
   
 }

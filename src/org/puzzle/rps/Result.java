@@ -60,5 +60,9 @@ public class Result {
     return true;
   }
 
+  @Override
+  public String toString() {
+    return String.format("%s %s %s", winningToken, winVerb, losingToken);
+  }
 
 }

@@ -75,5 +75,18 @@ public class RandomComputerPlayerTest {
     // but this is accurate.
     assertTrue(differCount > 0);
   }
+ 
+  @Test
+  public void robbyTheRobot() {
+
+    Player randomCP1 = new RandomComputerPlayer(validTokens);
+    Player randomCP2 = new RandomComputerPlayer(validTokens);
+
+    assertTrue(randomCP1.toString().startsWith("Robby "));
+    assertTrue(randomCP2.toString().startsWith("Robby "));
+    
+  }
+  
+
   
 }
