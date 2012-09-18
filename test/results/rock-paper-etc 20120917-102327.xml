@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testrun name="rock-paper-etc" project="rock-paper-etc" tests="35" started="35" failures="0" errors="0" ignored="0">
+  <testsuite name="org.puzzle.rps.players.PlayerFactoryTest" time="0.005">
+    <testcase name="checkPlayerEnum" classname="org.puzzle.rps.players.PlayerFactoryTest" time="0.0"/>
+    <testcase name="createPlayerTypes" classname="org.puzzle.rps.players.PlayerFactoryTest" time="0.001"/>
+    <testcase name="tokensPassed" classname="org.puzzle.rps.players.PlayerFactoryTest" time="0.004"/>
+  </testsuite>
+  <testsuite name="org.puzzle.rps.RuleInterpreterTest" time="0.008">
+    <testcase name="canParseTokens" classname="org.puzzle.rps.RuleInterpreterTest" time="0.003"/>
+    <testcase name="canCheckRules" classname="org.puzzle.rps.RuleInterpreterTest" time="0.0"/>
+    <testcase name="canCheckManyRules" classname="org.puzzle.rps.RuleInterpreterTest" time="0.001"/>
+    <testcase name="threeArbitraryRules" classname="org.puzzle.rps.RuleInterpreterTest" time="0.001"/>
+    <testcase name="manyManyManyArbitraryRules" classname="org.puzzle.rps.RuleInterpreterTest" time="0.002"/>
+    <testcase name="invalidRuleRejected" classname="org.puzzle.rps.RuleInterpreterTest" time="0.0"/>
+    <testcase name="invalidRuleCheckRejected" classname="org.puzzle.rps.RuleInterpreterTest" time="0.001"/>
+  </testsuite>
+  <testsuite name="org.puzzle.rps.support.FileSupportTest" time="0.002">
+    <testcase name="getStringFromResource" classname="org.puzzle.rps.support.FileSupportTest" time="0.002"/>
+  </testsuite>
+  <testsuite name="org.puzzle.rps.players.HumanPlayerTest" time="0.009">
+    <testcase name="moveBasedOnInputStream" classname="org.puzzle.rps.players.HumanPlayerTest" time="0.001"/>
+    <testcase name="multipleMoves" classname="org.puzzle.rps.players.HumanPlayerTest" time="0.002"/>
+    <testcase name="invalidMoveIgnored" classname="org.puzzle.rps.players.HumanPlayerTest" time="0.001"/>
+    <testcase name="outOfBoundsIgnored" classname="org.puzzle.rps.players.HumanPlayerTest" time="0.001"/>
+    <testcase name="userMoveRequested" classname="org.puzzle.rps.players.HumanPlayerTest" time="0.001"/>
+    <testcase name="promptDependsOnTokens" classname="org.puzzle.rps.players.HumanPlayerTest" time="0.0"/>
+    <testcase name="invalidChoicePromptsMessage" classname="org.puzzle.rps.players.HumanPlayerTest" time="0.003"/>
+    <testcase name="fromNowOnYoullBeKnownAs" classname="org.puzzle.rps.players.HumanPlayerTest" time="0.0"/>
+  </testsuite>
+  <testsuite name="org.puzzle.rps.GamesMasterTest" time="0.256">
+    <testcase name="coreInteractionLoop_bannerShown" classname="org.puzzle.rps.GamesMasterTest" time="0.215"/>
+    <testcase name="coreInteractionLoop_prepGame" classname="org.puzzle.rps.GamesMasterTest" time="0.002"/>
+    <testcase name="gameStarted" classname="org.puzzle.rps.GamesMasterTest" time="0.028"/>
+    <testcase name="updatesProvided" classname="org.puzzle.rps.GamesMasterTest" time="0.011"/>
+  </testsuite>
+  <testsuite name="org.puzzle.rps.GameEngineTest" time="0.314">
+    <testcase name="gameAsksPlayersForMoves" classname="org.puzzle.rps.GameEngineTest" time="0.038"/>
+    <testcase name="gameAsksPlayersForRightNumberOfMoves" classname="org.puzzle.rps.GameEngineTest" time="0.035"/>
+    <testcase name="rulesApplied_PlayerTwoWins" classname="org.puzzle.rps.GameEngineTest" time="0.035"/>
+    <testcase name="rulesApplied_PlayerOneWins" classname="org.puzzle.rps.GameEngineTest" time="0.035"/>
+    <testcase name="rulesApplied_ItsADraw" classname="org.puzzle.rps.GameEngineTest" time="0.034"/>
+    <testcase name="rulesApplied_lizardGame_P1WinsOverSevenRounds" classname="org.puzzle.rps.GameEngineTest" time="0.08"/>
+    <testcase name="eventsNotified" classname="org.puzzle.rps.GameEngineTest" time="0.055"/>
+    <testcase name="resultStringGenerated" classname="org.puzzle.rps.GameEngineTest" time="0.002"/>
+  </testsuite>
+  <testsuite name="org.puzzle.rps.players.RandomComputerPlayerTest" time="0.095">
+    <testcase name="playerProvidesMove" classname="org.puzzle.rps.players.RandomComputerPlayerTest" time="0.012"/>
+    <testcase name="movesAppearRandom" classname="org.puzzle.rps.players.RandomComputerPlayerTest" time="0.015"/>
+    <testcase name="twoPlayersHaveDifferentMoves" classname="org.puzzle.rps.players.RandomComputerPlayerTest" time="0.035"/>
+    <testcase name="robbyTheRobot" classname="org.puzzle.rps.players.RandomComputerPlayerTest" time="0.033"/>
+  </testsuite>
+</testrun>
